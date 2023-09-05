@@ -16,8 +16,8 @@ export function App() {
   });
 
   const updateFeedbackStats = option => {
-    setFeedback(prevState => {
-      return { ...prevState, [option]: prevState[option] + 1 };
+    setFeedback(state => {
+      return { ...state, [option]: state[option] + 1 };
     });
   };
 
