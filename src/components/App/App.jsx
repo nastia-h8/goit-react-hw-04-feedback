@@ -9,29 +9,22 @@ import { Layout } from 'components/Layout';
 import { GlobalStyle } from 'components/GlobalStyle';
 
 export function App() {
-  const [good, setGood] = useState(0);
-  const [neutral, setNeutral] = useState(0);
-  const [bad, setBad] = useState(0);
+  const [feedback, setFeedback] = useState({
+    good: 0,
+    neutral: 0,
+    bad: 0,
+  });
 
   const updateFeedbackStats = option => {
-    switch (option) {
-      case 'good':
-        setGood(prevCount => prevCount + 1);
-        return;
-      case 'neutral':
-        setNeutral(prevCount => prevCount + 1);
-        return;
-      case 'bad':
-        setBad(prevCount => prevCount + 1);
-        return;
-      default:
-        throw new Error(`unsupported feedback option ${option}`);
-    }
+    setFeedback(prevState => {
+      return { ...prevState, [option]: prevState[option] + 1 };
+    });
   };
 
-  const options = ['good', 'neutral', 'bad'];
-  const total = good + neutral + bad;
-  const positivePercentage = total > 0 ? Math.round((good / total) * 100) : 0;
+  const options = Object.keys(feedback);
+  const total = Object.values(feedback).reduce((total, opt) => total + opt, 0);
+  const positivePercentage =
+    total > 0 ? Math.round((feedback.good / total) * 100) : 0;
 
   return (
     <Layout>
@@ -45,9 +38,7 @@ export function App() {
       <Section title="Statistics">
         {total > 0 ? (
           <Statistics
-            good={good}
-            neutral={neutral}
-            bad={bad}
+            feedback={feedback}
             total={total}
             positivePercentage={positivePercentage}
           />

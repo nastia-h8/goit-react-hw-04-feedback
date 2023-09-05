@@ -1,22 +1,21 @@
 import { RawData, CountData, Item, Label } from './Statistics.styled';
 import PropTypes from 'prop-types';
 
-export function Statistics({ good, neutral, bad, total, positivePercentage }) {
+export function Statistics({ feedback, total, positivePercentage }) {
+  const entries = Object.entries(feedback);
+
   return (
     <>
       <RawData>
-        <Item>
-          <Label>Good</Label>
-          <span>{good}</span>
-        </Item>
-        <Item>
-          <Label>Neutral</Label>
-          <span>{neutral}</span>
-        </Item>
-        <Item>
-          <Label>Bad</Label>
-          <span>{bad}</span>
-        </Item>
+        {entries.map(option => {
+          const [label, value] = option;
+          return (
+            <Item key={label}>
+              <Label>{label}</Label>
+              <span>{value}</span>
+            </Item>
+          );
+        })}
       </RawData>
 
       <CountData>
@@ -34,9 +33,11 @@ export function Statistics({ good, neutral, bad, total, positivePercentage }) {
 }
 
 Statistics.propTypes = {
-  good: PropTypes.number.isRequired,
-  neutral: PropTypes.number.isRequired,
-  bad: PropTypes.number.isRequired,
+  feedback: PropTypes.shape({
+    good: PropTypes.number.isRequired,
+    neutral: PropTypes.number.isRequired,
+    bad: PropTypes.number.isRequired,
+  }).isRequired,
   total: PropTypes.number.isRequired,
   positivePercentage: PropTypes.number.isRequired,
 };
