@@ -2,12 +2,12 @@ import { RawData, CountData, Item, Label } from './Statistics.styled';
 import PropTypes from 'prop-types';
 
 export function Statistics({ feedback, total, positivePercentage }) {
-  const entries = Object.entries(feedback);
+  const options = Object.entries(feedback);
 
   return (
     <>
       <RawData>
-        {entries.map(option => {
+        {options.map(option => {
           const [label, value] = option;
           return (
             <Item key={label}>
@@ -33,11 +33,7 @@ export function Statistics({ feedback, total, positivePercentage }) {
 }
 
 Statistics.propTypes = {
-  feedback: PropTypes.shape({
-    good: PropTypes.number.isRequired,
-    neutral: PropTypes.number.isRequired,
-    bad: PropTypes.number.isRequired,
-  }).isRequired,
+  feedback: PropTypes.objectOf(PropTypes.number.isRequired).isRequired,
   total: PropTypes.number.isRequired,
   positivePercentage: PropTypes.number.isRequired,
 };

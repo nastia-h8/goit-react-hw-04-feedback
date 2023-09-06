@@ -16,15 +16,16 @@ export function App() {
   });
 
   const updateFeedbackStats = option => {
-    setFeedback(state => {
-      return { ...state, [option]: state[option] + 1 };
-    });
+    setFeedback(prevState => ({
+      ...prevState,
+      [option]: prevState[option] + 1,
+    }));
   };
 
   const options = Object.keys(feedback);
   const total = Object.values(feedback).reduce((total, opt) => total + opt, 0);
   const positivePercentage =
-    total > 0 ? Math.round((feedback.good / total) * 100) : 0;
+    feedback.good > 0 ? Math.round((feedback.good / total) * 100) : 0;
 
   return (
     <Layout>
